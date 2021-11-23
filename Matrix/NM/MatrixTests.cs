@@ -1,10 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Matrix;
+using HundoMatrix;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Matrix.Tests
+namespace HundoMatrix.Tests
 {
     [TestClass()]
     public class MatrixTests
@@ -175,5 +175,115 @@ namespace Matrix.Tests
             Assert.AreEqual(0, new Matrix(new double[,] { { 1, 2, 1 }, { 2, 14, 2 }, { 3, 5, 3 } }).Determinant());
         }
 
+        /// <summary>
+        /// 矩陣乘法
+        /// </summary>
+        [TestMethod("矩陣乘法")]
+        public void MulTest()
+        {
+            // 0 1
+            // 2 3
+            // 4 5
+            Matrix matrix1 = new Matrix() { Value = new double[3, 2] { { 0, 1 }, { 2, 3 }, { 4, 5 } } };
+            // 0 1 2
+            // 3 4 5
+            Matrix matrix2 = new Matrix() { Value = new double[2, 3] { { 0, 1, 2 }, { 3, 4, 5 } } };
+            // 0*0+1*3  
+            //
+            //
+            Matrix nMatrix = matrix1 * matrix2;
+            Matrix Excepted = new Matrix()
+            {
+                Value = new double[3, 3]
+                {
+                    {3,4,5 },
+                    {9,14,19 },
+                    {15,24,33 }
+                }
+            };
+            Assert.AreEqual(Excepted, nMatrix);
+        }
+
+        /// <summary>
+        /// 矩陣乘法
+        /// </summary>
+        [TestMethod("矩陣乘法2")]
+        public void MulTest2()
+        {
+            // 1 0 2
+            // -1 3 1
+            Matrix matrix1 = new Matrix()
+            {
+                Value = new double[2, 3]
+            {
+                { 1, 0, 2 }, { -1, 3, 1 }
+            }
+            };
+            // 3 1
+            // 2 1
+            // 1 0
+            Matrix matrix2 = new Matrix()
+            {
+                Value = new double[3, 2]
+            {
+                { 3, 1 },
+                { 2, 1 },
+                { 1, 0 }
+            }
+            };
+            Matrix nMatrix = matrix1 * matrix2;
+            Matrix Excepted = new Matrix()
+            {
+                Value = new double[2, 2]
+                {
+                    {5,1 },
+                    {4,2 },
+                }
+            };
+            Assert.AreEqual(Excepted, nMatrix);
+        }
+
+
+        /// <summary>
+        /// 兩個相同的矩陣是否相等
+        /// </summary>
+        [TestMethod("相等")]
+        public void Equal()
+        {
+            Matrix matrix, matrix1;
+            matrix = new Matrix(1, 1);
+            matrix1 = new Matrix(1, 1);
+            Assert.AreEqual<Matrix>(matrix, matrix1);
+        }
+
+        /// <summary>
+        /// 增廣矩陣
+        /// </summary>
+        [TestMethod("增廣矩陣")]
+        public void Argumented()
+        {
+            Matrix matrix1 = new Matrix(2, 2)
+            {
+                Value = new double[,] {
+                { 0, 1 },
+                { 2, 3 }
+            }
+            };
+            Matrix matrix2 = new Matrix(2, 2)
+            {
+                Value = new double[,] {
+                { 2, 3 },
+                { 4, 5 }
+            }
+            };
+            Matrix matrix3 = new Matrix(2, 4)
+            {
+                Value = new double[,] {
+                { 0,1,2,3},
+                { 2,3,4,5}
+            }
+            };
+            Assert.AreEqual(matrix3, matrix1.Augmented(matrix2));
+        }
     }
 }

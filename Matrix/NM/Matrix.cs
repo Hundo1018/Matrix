@@ -2,11 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-namespace Matrix
+namespace HundoMatrix
 {
-    public class Matrix:ICollection
+    public class Matrix:ICollection, IEquatable<Matrix>
     {
-
+        private const string EXCEPTION_DIFFERNCE_SIZE = "矩陣大小不同";
         /// <summary>
         /// [n,m]
         /// </summary>
@@ -159,7 +159,6 @@ namespace Matrix
             return matrix;
         }
 
-        [Obsolete("尚未實作")]
         /// <summary>
         /// 合併成增廣矩陣
         /// </summary>
@@ -167,7 +166,6 @@ namespace Matrix
         /// <returns></returns>
         public Matrix Augmented(Matrix matrix)
         {
-            throw new NotImplementedException();
             int rDim = N;
             int newM = M + matrix.M;
             Matrix newMatrix = new Matrix(rDim, newM);
@@ -176,7 +174,7 @@ namespace Matrix
                 double[] newRow = GetRowVectorAt(row).Concat(matrix.GetRowVectorAt(row)).ToArray();
                 for (int column = 0; column < newM; column++)
                 {
-                    //TODO: newMatrix[row, column] = ;
+                    newMatrix[row, column] = newRow[column];
                 }
             }
             return newMatrix;
@@ -203,6 +201,42 @@ namespace Matrix
 
         }
 
+        /// <summary>
+        /// 計算曼哈頓距離
+        /// </summary>
+        /// <returns></returns>
+        public double ManhattanDistance(Matrix matrix)
+        {
+            if (matrix.N != N || matrix.M != M) throw new Exception(EXCEPTION_DIFFERNCE_SIZE);
+            double d = 0;
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = 0; j < M; j++)
+                {
+                    d += Math.Abs(this[i, j] - matrix[i, j]);
+                }
+            }
+            return d;
+        }
+
+        /// <summary>
+        /// 計算歐幾里得距離
+        /// </summary>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        public double EuclideanDistance(Matrix matrix)
+        {
+            if (matrix.N != N || matrix.M != M) throw new Exception(EXCEPTION_DIFFERNCE_SIZE);
+            double d = 0;
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = 0; j < M; j++)
+                {
+                    d += Math.Pow(this[i, j] - matrix[i, j], 2);
+                }
+            }
+            return Math.Sqrt(d);
+        }
 
         #region 矩陣運算
 
@@ -235,6 +269,66 @@ namespace Matrix
                 }
             }
             return nMatrix;
+        }
+        public static Matrix operator +(Matrix matrix1, Matrix matrix2)
+        {
+            if (matrix1.M != matrix2.M || matrix1.N != matrix2.N) throw new Exception(EXCEPTION_DIFFERNCE_SIZE);
+            Matrix nMatrix = new Matrix(matrix1.N, matrix1.M);
+            for (int i = 0; i < matrix1.N; i++)
+            {
+                for (int j = 0; j < matrix1.M; j++)
+                {
+                    nMatrix[i, j] = matrix1[i, j] + matrix2[i, j];
+                }
+            }
+            return nMatrix;
+        }
+        public static Matrix operator -(Matrix matrix1, Matrix matrix2)
+        {
+            if (matrix1.M != matrix2.M || matrix1.N != matrix2.N) throw new Exception(EXCEPTION_DIFFERNCE_SIZE);
+            Matrix nMatrix = new Matrix(matrix1.N, matrix1.M);
+            for (int i = 0; i < matrix1.N; i++)
+            {
+                for (int j = 0; j < matrix1.M; j++)
+                {
+                    nMatrix[i, j] = matrix1[i, j] - matrix2[i, j];
+                }
+            }
+            return nMatrix;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="matrix1"></param>
+        /// <param name="matrix2"></param>
+        /// <returns></returns>
+        public static Matrix operator *(Matrix matrix1, Matrix matrix2)
+        {
+            if (matrix1.M != matrix2.N || matrix1.N != matrix2.M) throw new Exception(EXCEPTION_DIFFERNCE_SIZE);
+            Matrix nMatrix = new Matrix(matrix1.N,matrix2.M);
+            for (int r = 0; r < matrix1.N; r++)
+            {
+                for (int c = 0; c < matrix2.M; c++)
+                {
+                    double temp = 0;
+                    for (int i = 0; i < matrix1.M; i++)
+                    {
+                        temp += matrix1[r, i] * matrix2[i, c];
+                    }
+                    nMatrix[r, c] = temp;
+                }
+            }
+            return nMatrix;
+        }
+
+        public static bool operator ==(Matrix left, Matrix right)
+        {
+            return EqualityComparer<Matrix>.Default.Equals(left, right);
+        }
+
+        public static bool operator !=(Matrix left, Matrix right)
+        {
+            return !(left == right);
         }
 
         /// <summary>
@@ -293,6 +387,32 @@ namespace Matrix
         public IEnumerator GetEnumerator()
         {
             return Value.GetEnumerator();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as Matrix);
+        }
+
+        public bool Equals(Matrix other)
+        {
+            if (other == null || N != other.N || M != other.M || Count != other.Count || IsSynchronized != other.IsSynchronized)
+            {
+                return false;
+            }
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = 0; j < M; j++)
+                {
+                    if (this[i, j] != other[i, j]) return false;
+                }
+            }
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Value, N, M, Count, IsSynchronized, SyncRoot);
         }
 
 
