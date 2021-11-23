@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HundoMatrix", "HundoMatrix\HundoMatrix.csproj", "{13171598-329C-45E4-BB7E-2243E4AC9339}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HundoMatrixTests1", "HundoMatrixTests1\HundoMatrixTests1.csproj", "{80944E16-9EF4-4493-BA91-CAB0413A0C11}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{13171598-329C-45E4-BB7E-2243E4AC9339}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13171598-329C-45E4-BB7E-2243E4AC9339}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13171598-329C-45E4-BB7E-2243E4AC9339}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13171598-329C-45E4-BB7E-2243E4AC9339}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80944E16-9EF4-4493-BA91-CAB0413A0C11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80944E16-9EF4-4493-BA91-CAB0413A0C11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80944E16-9EF4-4493-BA91-CAB0413A0C11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80944E16-9EF4-4493-BA91-CAB0413A0C11}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {26E989B3-17B8-46EA-856B-41AEED61130F}
+	EndGlobalSection
+EndGlobal
