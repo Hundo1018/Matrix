@@ -172,7 +172,7 @@ namespace HundoMatrix.Tests
         {
             Matrix matrix = new Matrix(new double[,] { { 0, 1, 2 }, { 3, 4, 5 }, { 6, 7, 8 } });
             string actual = matrix.ToString();
-            string expect = "0,1,2,\r\n3,4,5,\r\n6,7,8,\r\n";
+            string expect = "\r\n0,1,2,\r\n3,4,5,\r\n6,7,8,\r\n";
             Assert.AreEqual(expect, actual);
         }
 
@@ -185,7 +185,11 @@ namespace HundoMatrix.Tests
         [TestMethod()]
         public void GetEnumeratorTest()
         {
-            Assert.Fail();
+            Matrix matrix = new Matrix(5, 5);
+            var a = matrix.GetEnumerator();
+            foreach (var item in matrix)
+            {
+            }
         }
 
         [TestMethod()]
@@ -208,9 +212,11 @@ namespace HundoMatrix.Tests
         {
             Matrix matrix = new Matrix(1, 1);
             Matrix matrix1 = new Matrix(1, 1);
-            Dictionary<Matrix, int> keyValuePairs = new Dictionary<Matrix, int>();
-            keyValuePairs.Add(matrix, 0);
-            keyValuePairs.Add(matrix1, 1);
+            Dictionary<Matrix, int> keyValuePairs = new Dictionary<Matrix, int>
+            {
+                { matrix, 0 },
+                { matrix1, 1 }
+            };
             Assert.AreEqual(keyValuePairs[matrix1], 1);
         }
 
@@ -325,5 +331,27 @@ namespace HundoMatrix.Tests
             Assert.AreEqual(Excepted, nMatrix);
         }
 
+        [TestMethod()]
+        public void Indexer1DTest1()
+        {
+            Matrix matrix = new Matrix(new double[] { 0, 1, 2 });
+            Assert.AreEqual(matrix[2], 2);
+        }
+
+
+        [TestMethod()]
+        public void Indexer1DTest2()
+        {
+            Matrix matrix = new double[] { 0, 1, 2 };
+            Assert.AreEqual(matrix[2], 2);
+        }
+
+        [TestMethod()]
+        public void ImplicitTest1()
+        {
+            Matrix matrix = new Matrix(2, 1);
+            double[] a0 = matrix.GetColumnVectorAt(0);
+            Assert.AreEqual(a0[0], 0);
+        }
     }
 }

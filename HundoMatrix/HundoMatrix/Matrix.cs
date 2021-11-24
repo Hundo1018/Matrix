@@ -28,6 +28,17 @@ namespace HundoMatrix
         }
 
         /// <summary>
+        /// 取得數值
+        /// </summary>
+        /// <param name="nIndex">row</param>
+        /// <returns></returns>
+        public double this[int nIndex]
+        {
+            get => Value[nIndex, 0];
+            set => Value[nIndex, 0] = value;
+        }
+
+        /// <summary>
         /// 取得Row的數量
         /// </summary>
         public int N { get => Value.GetLength(0); }
@@ -38,19 +49,25 @@ namespace HundoMatrix
         public int M { get => Value.GetLength(1); }
 
         //隱含轉換 
-        public static implicit operator Matrix(double[,] matrix)
+        public static implicit operator Matrix(double[,] matrix) => new Matrix(matrix);
+
+        public static implicit operator Matrix(double[] matrix)=> new Matrix(matrix);
+
+        public static implicit operator double[,](Matrix matrix)=> matrix.Value;
+
+        public static implicit operator double[](Matrix matrix)
         {
-            return new Matrix(matrix);
+            if (matrix.M == 1)
+            {
+                return matrix.GetColumnVectorAt(0);
+            }
+            throw new Exception("必須為column vector");
         }
 
-        public static implicit operator Matrix(double[] matrix)
+        public static implicit operator List<double>(Matrix matrix)
         {
-            return new Matrix(matrix);
-        }
-
-        public static implicit operator double[,](Matrix matrix)
-        {
-            return matrix.Value;
+            if (matrix.M != 1) throw new Exception();
+            return matrix.GetColumnVectorAt(0).ToList();
         }
         #endregion
         #region ICollection
