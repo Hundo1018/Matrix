@@ -214,10 +214,9 @@ namespace HundoMatrix.Tests
             Matrix matrix1 = new Matrix(1, 1);
             Dictionary<Matrix, int> keyValuePairs = new Dictionary<Matrix, int>
             {
-                { matrix, 0 },
-                { matrix1, 1 }
+                { matrix, 0 }
             };
-            Assert.AreEqual(keyValuePairs[matrix1], 1);
+            Assert.AreEqual(keyValuePairs[matrix1], 0);
         }
 
         [TestMethod()]

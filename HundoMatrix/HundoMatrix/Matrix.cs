@@ -458,6 +458,8 @@ namespace HundoMatrix
         /// <returns></returns>
         public override int GetHashCode()
         {
+            return ToString().GetHashCode();
+            /*
             int hashCode = 131871528;
             hashCode = hashCode * -1521134295 + EqualityComparer<double[,]>.Default.GetHashCode(Value);
             hashCode = hashCode * -1521134295 + N.GetHashCode();
@@ -465,7 +467,7 @@ namespace HundoMatrix
             hashCode = hashCode * -1521134295 + Count.GetHashCode();
             hashCode = hashCode * -1521134295 + IsSynchronized.GetHashCode();
             hashCode = hashCode * -1521134295 + EqualityComparer<object>.Default.GetHashCode(SyncRoot);
-            return hashCode;
+            return hashCode;*/
         }
 
         /// <summary>
